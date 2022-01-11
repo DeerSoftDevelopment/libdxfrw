@@ -26,10 +26,6 @@ target_include_directories(dxfrw PUBLIC include)
 if(WIN32)
 #target_include_directories(dxfrw PRIVATE packages/libiconv.1.14.0.11/build/native/include)
 #target_link_directories(dxfrw PRIVATE packages/libiconv.1.14.0.11/build/native/lib)
-
-set_property(TARGET dxfrw
-    PROPERTY VS_PACKAGE_REFERENCES "libiconv_1.14.0.11;libiconv.redist_1.14.0.11"
-)
 endif()
 
 
