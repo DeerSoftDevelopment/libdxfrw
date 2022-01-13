@@ -484,7 +484,11 @@ std::string DRW_ExtConverter::convertByiconv(const char *in_encode,
     iconv_t ic;
     ic = iconv_open(out_encode, in_encode);
     size_t il = BUF_SIZE-1, ol = BUF_SIZE-1;
+#ifdef WIN32
     iconv(ic , (const char**)&in_ptr, &il, &out_ptr, &ol); // This line was changed by DeerSoft
+#else
+    iconv(ic , (char**)&in_ptr, &il, &out_ptr, &ol);
+#endif
     iconv_close(ic);
 
     return std::string(out_buf);
