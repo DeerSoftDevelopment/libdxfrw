@@ -24,8 +24,8 @@ add_library(dxfrw STATIC ${libdxfrw_sources} ${libdxfrw_intern_sources})
 target_include_directories(dxfrw PUBLIC include)
 
 if(WIN32)
-#target_include_directories(dxfrw PRIVATE packages/libiconv.1.14.0.11/build/native/include)
-#target_link_directories(dxfrw PRIVATE packages/libiconv.1.14.0.11/build/native/lib)
+target_include_directories(dxfrw PRIVATE packages/libiconv.1.14.0.11/build/native/include)
+target_link_directories(dxfrw PRIVATE packages/libiconv.1.14.0.11/build/native/lib)
 endif()
 
 
