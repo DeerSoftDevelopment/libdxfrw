@@ -21,7 +21,6 @@ file(GLOB libdxfrw_intern_sources src/intern/*.cpp)
 
 
 add_library(dxfrw STATIC ${libdxfrw_sources} ${libdxfrw_intern_sources})
-target_include_directories(dxfrw PUBLIC include)
 target_compile_definitions(dxfrw PUBLIC LIBICONV_PLUG)
 
 if(WIN32)
