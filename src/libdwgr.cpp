@@ -84,11 +84,23 @@ bool dwgR::getPreview(){
     return isOk;
 }
 
+#ifdef WIN32
+#include <codecvt>
+#endif
+
 bool dwgR::testReader(){
     bool isOk = false;
 
     std::ifstream filestr;
-    filestr.open (fileName.c_str(), std::ios_base::in | std::ios::binary);
+
+    #ifdef WIN32
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	std::wstring wstr = convert.from_bytes(fileName);
+    filestr.open(wstr.c_str(), std::ios_base::in | std::ios::binary);
+    #else
+    filestr.open(fileName.c_str(), std::ios_base::in | std::ios::binary);
+    #endif
+
     if (!filestr.is_open() || !filestr.good() ){
         error = DRW::BAD_OPEN;
         return isOk;
@@ -179,7 +191,15 @@ bool dwgR::read(DRW_Interface *interface_, bool ext){
 bool dwgR::openFile(std::ifstream *filestr){
     bool isOk = false;
     DRW_DBG("dwgR::read 1\n");
-    filestr->open (fileName.c_str(), std::ios_base::in | std::ios::binary);
+
+#ifdef WIN32
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> convert;
+	std::wstring wstr = convert.from_bytes(fileName);
+	filestr->open(wstr.c_str(), std::ios_base::in | std::ios::binary);
+#else
+	filestr->open(fileName.c_str(), std::ios_base::in | std::ios::binary);
+#endif
+
     if (!filestr->is_open() || !filestr->good() ){
         error = DRW::BAD_OPEN;
         return isOk;
