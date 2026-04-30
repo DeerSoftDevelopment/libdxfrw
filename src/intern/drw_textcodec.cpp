@@ -93,28 +93,13 @@ void DRW_TextCodec::setCodePage(std::string *c, bool dxfFormat){
             conv = new DRW_ConvTable(DRW_Table1258, CPLENGHTCOMMON);
         else if (cp == "UTF-8") { //DXF older than 2007 are write in win codepages
             cp = "ANSI_1252";
-            #ifdef WIN32
-            conv = new DRW_ExtConverter("ANSI");
-            #else 
             conv = new DRW_ExtConverter("SJIS");
-            #endif
-            
         } else {
-            cp = "ANSI_1252";
-            #ifdef WIN32
-            conv = new DRW_ExtConverter("ANSI");
-            #else 
             conv = new DRW_ExtConverter("SJIS");
-            #endif
         }
     } else {
         if (min_ver <= DRW::AC1018) {
-            cp = "ANSI_1252";
-            #ifdef WIN32
-            conv = new DRW_ExtConverter("ANSI");
-            #else 
             conv = new DRW_ExtConverter("SJIS");
-            #endif
         } else {
             if (dxfFormat)
                 conv = new DRW_Converter(NULL, 0);//utf16 to utf8
@@ -498,16 +483,8 @@ std::string DRW_ExtConverter::convertByiconv(const char *in_encode,
 
     iconv_t ic;
     ic = iconv_open(out_encode, in_encode);
-	if (ic == iconv_t(-1))
-	{
-		return std::string(in_ptr);
-	}
     size_t il = BUF_SIZE-1, ol = BUF_SIZE-1;
-#ifdef WIN32
-    iconv(ic , (const char**)&in_ptr, &il, &out_ptr, &ol); // This line was changed by DeerSoft
-#else
     iconv(ic , (char**)&in_ptr, &il, &out_ptr, &ol);
-#endif
     iconv_close(ic);
 
     return std::string(out_buf);
