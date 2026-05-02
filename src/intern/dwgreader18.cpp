@@ -449,9 +449,9 @@ bool dwgReader18::readDwgClasses(){
 
     duint32 size = dataBuf.getRawLong32();
     DRW_DBG("\ndata size in bytes "); DRW_DBG(size);
-    if (version > DRW::AC1021 && maintenanceVersion > 3) { //2010+
+    if ((version > DRW::AC1021 && maintenanceVersion > 3) || version >= DRW::AC1032) { //2010+ or AC1032
         duint32 hSize = dataBuf.getRawLong32();
-        DRW_DBG("\n2010+ & MV> 3, higth 32b: "); DRW_DBG(hSize);
+        DRW_DBG("\n2010+ & MV> 3 or AC1032, higth 32b: "); DRW_DBG(hSize);
     }
     duint32 bitSize = 0;
     if (version > DRW::AC1021) {//2007+
@@ -503,7 +503,9 @@ bool dwgReader18::readDwgClasses(){
 
     /*******************************/
 
-    duint32 endDataPos = maxClassNum-499;
+    // Classes 0-499 are built-in; custom classes start at 500.
+    // If maxClassNum <= 499, there are no custom classes to parse.
+    duint32 endDataPos = (maxClassNum > 499) ? (maxClassNum - 499) : 0;
     DRW_DBG("\nbuff.getPosition: "); DRW_DBG(dataBuf.getPosition());
     for (duint32 i= 0; i<endDataPos;i++) {
         DRW_Class *cl = new DRW_Class();
