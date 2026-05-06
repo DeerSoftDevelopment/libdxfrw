@@ -10,8 +10,8 @@ file(GLOB libdxfrw_intern_sources src/intern/*.cpp)
 
 # Find iconv library
 if(WIN32)
-    include_directories(vs2013/packages/libiconv.1.14.0.11/build/native/include)
-    link_directories(vs2013/packages/libiconv.1.14.0.11/build/native/lib)
+    include_directories(${CMAKE_SOURCE_DIR}/packages/libiconv.1.14.0.11/build/native/include)
+    link_directories(${CMAKE_SOURCE_DIR}/packages/libiconv.1.14.0.11/build/native/lib)
     set(ICONV_LIBRARY iconv)
 else()
     # On Unix-like systems (Linux, macOS)
