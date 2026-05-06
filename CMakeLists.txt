@@ -1,6 +1,22 @@
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(libdxfrw VERSION 0.6.3)
 
+set(WIN_RUNTIME "MT" CACHE STRING "Windows runtime")
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+if(WIN32)
+    message(STATUS "Configuring with runtime ${WIN_RUNTIME}")
+    if(WIN_RUNTIME STREQUAL "MT")
+        set(CMAKE_CXX_FLAGS_RELEASE "-MT")
+        set(CMAKE_CXX_FLAGS_DEBUG "-MTd")
+    elseif(WIN_RUNTIME STREQUAL "MD")
+        set(CMAKE_CXX_FLAGS_RELEASE "-MD")
+        set(CMAKE_CXX_FLAGS_DEBUG "-MDd")
+    endif()
+endif()
+
 # Enable testing
 enable_testing()
 
