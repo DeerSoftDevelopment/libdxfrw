@@ -53,3 +53,5 @@ CMakeCache.txt
 cmake_install.cmake
 src/intern/.dirstamp
 .DS_Store
+libs/MT/Release/dxfrw.lib
+libs/MT/Release/libiconv.lib
