@@ -477,7 +477,7 @@ std::string DRW_ExtConverter::convertByiconv(const char *in_encode,
     const int BUF_SIZE = 1000;
     static char in_buf[BUF_SIZE], out_buf[BUF_SIZE];
 
-	char *in_ptr = in_buf;
+    const char *in_ptr = in_buf;
 	char *out_ptr = out_buf;
     strncpy(in_buf, s->c_str(), BUF_SIZE);
 
@@ -488,11 +488,7 @@ std::string DRW_ExtConverter::convertByiconv(const char *in_encode,
 		return std::string(in_ptr);
 	}
     size_t il = BUF_SIZE-1, ol = BUF_SIZE-1;
-#ifdef WIN32
-    iconv(ic , (const char**)&in_ptr, &il, &out_ptr, &ol); // This line was changed by DeerSoft
-#else
-    iconv(ic , (char**)&in_ptr, &il, &out_ptr, &ol);
-#endif
+    iconv(ic, &in_ptr, &il, &out_ptr, &ol);
     iconv_close(ic);
 
     return std::string(out_buf);

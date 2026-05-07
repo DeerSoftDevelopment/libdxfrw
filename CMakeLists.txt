@@ -46,9 +46,8 @@ endif()
 include_directories(include)
 
 add_library(dxfrw STATIC ${libdxfrw_sources} ${libdxfrw_intern_sources})
-if(WIN32)
-    target_compile_definitions(dxfrw PUBLIC LIBICONV_PLUG)
-else()
+target_compile_definitions(dxfrw PUBLIC LIBICONV_PLUG)
+if(NOT WIN32)
     target_link_libraries(dxfrw PUBLIC ${ICONV_LIBRARY})
 endif()
 
